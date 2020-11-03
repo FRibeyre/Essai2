@@ -1,0 +1,78 @@
+---
+title: "Excercice1"
+author: "Fabienne Ribeyre"
+date: "02/11/2020"
+output:
+  html_document:
+    df_print: paged
+  csl: the-american-naturalist.csl
+  bibliography: [mabiblio.bib]
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Premiere section
+
+Chargement des __packages__
+
+```{r chargement package, echo=FALSE, message=FALSE}
+library(palmerpenguins)
+library(tidyverse)
+library('plyr')
+library(ggplot2)
+library(citr)
+data(package = 'palmerpenguins')
+```
+
+```{r donnees, echo=FALSE, message=FALSE}
+ knitr::kable(head(penguins, 10), caption = "A kable table")
+
+```
+
+# Description de penguins
+
+
+```{r statistiques penguins, echo=FALSE, message=FALSE}
+nbspecies <- length(levels(penguins$species))
+nbisland <- length(levels(penguins$island))
+
+```
+
+Le fichier comporte `r nrow(penguins)` individus de `r nbspecies` espèces différentes. Elles proviennent de `r nbisland` iles.
+
+```{r moyennes penguins, echo=FALSE, message=FALSE}
+
+moy <- ddply(penguins,.(species), summarise,
+             bill_length_mm= mean(bill_length_mm, na.rm=TRUE), 
+             bill_depth_mm=mean(bill_depth_mm, na.rm=TRUE),
+             flipper_length_mm=mean(flipper_length_mm, na.rm=TRUE),
+             body_mass_g=mean(body_mass_g, na.rm=TRUE))
+moy
+```
+
+# Exploration graphique
+
+```{r graph penguins, echo=FALSE}
+ggplot(penguins, aes(body_mass_g)) + geom_histogram(aes(fill=species), alpha=0.5 )
+
+```
+
+
+# Les citations
+
+Voici une citation de Kristen B Gorman [@Gorman2017]
+
+@article{gorman_population_2017,
+	title = {Population genetic structure and gene flow of {Adélie} penguins ({Pygoscelis} adeliae) breeding throughout the western {Antarctic} {Peninsula}},
+	volume = {29},
+	doi = {10.1017/S0954102017000293},
+	number = {6},
+	journal = {Antarctic Science},
+	author = {Gorman, Kristen B. and Talbot, Sandra L. and Sonsthagen, Sarah A. and Sage, George K. and Gravely, Meg C. and Fraser, William R. and Williams, Tony D.},
+	year = {2017},
+	pages = {499--510}
+}
+
+
